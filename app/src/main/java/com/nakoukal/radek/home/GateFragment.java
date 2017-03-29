@@ -1,16 +1,16 @@
 package com.nakoukal.radek.home;
 
 /**
- * Created by uidv7359 on 22.8.2016.
+ * gate fragment class
  */
 
-import android.app.ProgressDialog;
+
 import android.content.Context;
 import android.graphics.Color;
-import android.os.AsyncTask;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Base64;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,24 +21,20 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
-
-import javax.net.ssl.HttpsURLConnection;
+import static android.R.attr.host;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class GateFragment extends Fragment {
+public class GateFragment extends Fragment implements TaskCompleted{
     /**
      * The fragment argument representing the section number for this
      * fragment.
      */
-    private static final String ARG_SECTION_NUMBER = "section_number";
-    private String host,port,name,user,pass;
 
+    public String host,port,name,user,pass;
+    private static final String ARG_SECTION_NUMBER = "section_number";
     public GateFragment() {
 
     }
@@ -62,28 +58,27 @@ public class GateFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         thiscontext = getActivity();
+        final TaskCompleted self_task = this;
         View rootView = inflater.inflate(R.layout.gate_fragment, container, false);
+        host = this.getArguments().getString("host");
+        user = this.getArguments().getString("user");
+        pass = this.getArguments().getString("pass");
+        port = this.getArguments().getString("port");
+        name = this.getArguments().getString("name");
 
-        String path = GateFragment.this.getActivity().getFilesDir().getAbsolutePath();
-        Config cfg = new Config(path);
-        if (cfg.load()) {
-            this.host = cfg.get("host");
-            this.port = cfg.get("port");
-            this.name = cfg.get("name");
-            this.user = cfg.get("user");
-            this.pass = cfg.get("pass");
-        }
 
-        button17 = (Button) rootView.findViewById(R.id.button17);
-        button18 = (Button) rootView.findViewById(R.id.button18);
-        button27 = (Button) rootView.findViewById(R.id.button27);
-        button22 = (Button) rootView.findViewById(R.id.button22);
+        button17 = (Button) rootView.findViewById(R.id.bt02name);
+        button18 = (Button) rootView.findViewById(R.id.bt01name);
+        button27 = (Button) rootView.findViewById(R.id.bt05name);
+        button22 = (Button) rootView.findViewById(R.id.bt04name);
         button21 = (Button) rootView.findViewById(R.id.button21);
-        buttonAll = (Button) rootView.findViewById(R.id.buttonAll);
+        buttonAll = (Button) rootView.findViewById(R.id.bt03name);
 
         try {
-            AsyncMessage req = new AsyncMessage();
-            req.setUrl(new URL("http://"+host+":"+port+"/smarthome/gpio_control.php?dev="+name+"&act=readall"));
+            SendRequestAsyncTask req = new SendRequestAsyncTask(thiscontext,this);
+            req.SetUser(user);
+            req.SetPass(pass);
+            req.SetUrl(new URL("http://"+host+":"+port+"/smarthome/gpio_control.php?dev="+name+"&act=readall"));
             req.execute();
         }
         catch(Exception e){
@@ -96,8 +91,8 @@ public class GateFragment extends Fragment {
             @Override
             public void onClick(View view) {
             try {
-                AsyncMessage srBt17 = new AsyncMessage();
-                srBt17.setUrl(new URL("http://"+host+":"+port+"/smarthome/gpio_control.php?dev="+name+"&act=opengate&bit=17"));
+                SendRequestAsyncTask srBt17 = new SendRequestAsyncTask(thiscontext,self_task);
+                srBt17.SetUrl(new URL("http://"+host+":"+port+"/smarthome/gpio_control.php?dev="+name+"&act=opengate&bit=17"));
                 srBt17.execute();
             }
             catch(Exception e){
@@ -113,8 +108,8 @@ public class GateFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-                    AsyncMessage srBt18 = new AsyncMessage();
-                    srBt18.setUrl(new URL("http://"+host+":"+port+"/smarthome/gpio_control.php?dev="+name+"&act=opengate&bit=18"));
+                    SendRequestAsyncTask srBt18 = new SendRequestAsyncTask(thiscontext,self_task);
+                    srBt18.SetUrl(new URL("http://"+host+":"+port+"/smarthome/gpio_control.php?dev="+name+"&act=opengate&bit=18"));
                     srBt18.execute();
                 }
                 catch(Exception e){
@@ -130,12 +125,12 @@ public class GateFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-                    AsyncMessage srBt18 = new AsyncMessage();
-                    srBt18.setUrl(new URL("http://"+host+":"+port+"/smarthome/gpio_control.php?dev="+name+"&act=opengate&bit=18"));
+                    SendRequestAsyncTask srBt18 = new SendRequestAsyncTask(thiscontext,self_task);
+                    srBt18.SetUrl(new URL("http://"+host+":"+port+"/smarthome/gpio_control.php?dev="+name+"&act=opengate&bit=18"));
                     srBt18.execute();
 
-                    AsyncMessage srBt17 = new AsyncMessage();
-                    srBt17.setUrl(new URL("http://"+host+":"+port+"/smarthome/gpio_control.php?dev="+name+"&act=opengate&bit=17"));
+                    SendRequestAsyncTask srBt17 = new SendRequestAsyncTask(thiscontext,self_task);
+                    srBt17.SetUrl(new URL("http://"+host+":"+port+"/smarthome/gpio_control.php?dev="+name+"&act=opengate&bit=17"));
                     srBt17.execute();
 
                 }
@@ -152,8 +147,8 @@ public class GateFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-                    AsyncMessage srBt21 = new AsyncMessage();
-                    srBt21.setUrl(new URL("http://"+host+":"+port+"/smarthome/gpio_control.php?dev="+name+"&act=writevalue&bit=21"));
+                    SendRequestAsyncTask srBt21 = new SendRequestAsyncTask(thiscontext,self_task);
+                    srBt21.SetUrl(new URL("http://"+host+":"+port+"/smarthome/gpio_control.php?dev="+name+"&act=writevalue&bit=21"));
                     srBt21.execute();
                 }
                 catch(Exception e){
@@ -169,8 +164,8 @@ public class GateFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-                    AsyncMessage srBt22 = new AsyncMessage();
-                    srBt22.setUrl(new URL("http://"+host+":"+port+"/smarthome/gpio_control.php?dev="+name+"&act=writevalue&bit=22"));
+                    SendRequestAsyncTask srBt22 = new SendRequestAsyncTask(thiscontext,self_task);
+                    srBt22.SetUrl(new URL("http://"+host+":"+port+"/smarthome/gpio_control.php?dev="+name+"&act=writevalue&bit=22"));
                     srBt22.execute();
                 }
                 catch(Exception e){
@@ -186,8 +181,8 @@ public class GateFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-                    AsyncMessage srBt27 = new AsyncMessage();
-                    srBt27.setUrl(new URL("http://"+host+":"+port+"/smarthome/gpio_control.php?dev="+name+"&act=writevalue&bit=27"));
+                    SendRequestAsyncTask srBt27 = new SendRequestAsyncTask(thiscontext,self_task);
+                    srBt27.SetUrl(new URL("http://"+host+":"+port+"/smarthome/gpio_control.php?dev="+name+"&act=writevalue&bit=27"));
                     srBt27.execute();
                 }
                 catch(Exception e){
@@ -200,143 +195,60 @@ public class GateFragment extends Fragment {
         return rootView;
     }
 
-    public class AsyncMessage extends AsyncTask<String, String, String> {
 
-        ProgressDialog mProgress;
-        private TaskCompleted mCallback;
-        private URL url;
-        private Button button;
+    @Override
+    public void onTaskComplete(String result) {
 
-        public void setUrl(URL url)
-        {
-            this.url = url;
-        }
+        //This is where you return data back to caller
+        try{
+            JSONObject jsonRootObject = new JSONObject(result);
+            JSONArray jsonArray = jsonRootObject.optJSONArray("state");
+            for(int i=0; i < jsonArray.length(); i++){
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-
-        @Override
-        public void onPreExecute() {
-            mProgress = new ProgressDialog(thiscontext);
-            mProgress.setMessage("Gate");
-            mProgress.setMax(100);
-            mProgress.show();
-        }
-
-        @Override
-        protected void onProgressUpdate(String... values) {
-
-            mProgress.setMessage(values[0]);
-        }
-
-        @Override
-        protected String doInBackground(String... values) {
-            Integer iResult=0;
-            try{
-                //JSONObject postDataParams = new JSONObject();
-                //postDataParams.put("name", "abhay");
-                //postDataParams.put("email", "abhay@gmail.com");
-                //Log.e("params",postDataParams.toString());
-                String login  = user+":"+pass;
-                String basicAuth = "Basic " + new String(Base64.encode(login.getBytes(), Base64.NO_WRAP));
-                HttpURLConnection conn = (HttpURLConnection) this.url.openConnection();
-                conn.setRequestProperty("Authorization",basicAuth);
-                conn.setReadTimeout(15000);
-                conn.setConnectTimeout(15000);
-                conn.setRequestMethod("POST");
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-
-
-                //OutputStream os = conn.getOutputStream();
-                //BufferedWriter writer = new BufferedWriter(
-                //        new OutputStreamWriter(os, "UTF-8"));
-                //writer.write(getPostDataString(postDataParams));
-
-                //writer.flush();
-                //writer.close();
-                //os.close();
-
-                int responseCode=conn.getResponseCode();
-
-                if (responseCode == HttpsURLConnection.HTTP_OK) {
-
-                    BufferedReader in=new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    StringBuffer sb = new StringBuffer("");
-                    String line="";
-
-                    while((line = in.readLine()) != null) {
-                        sb.append(line);
+                int bit = Integer.parseInt(jsonObject.optString("bit").toString());
+                int val = Integer.parseInt(jsonObject.optString("val").toString());
+                String dir = jsonObject.optString("dir").toString();
+                //float salary = Float.parseFloat(jsonObject.optString("salary").toString());
+                switch (bit) {
+                    case 17:
+                        if(val == 1)
+                            button17.setBackgroundColor(Color.RED);
+                        else
+                            button17.setBackgroundColor(Color.LTGRAY);
                         break;
-                    }
+                    case 18:
+                        if(val == 1)
+                            button18.setBackgroundColor(Color.RED);
+                        else
+                            button18.setBackgroundColor(Color.LTGRAY);
+                        break;
 
-                    in.close();
-                    return sb.toString();
+                    case 21:
+                        if(val == 1)
+                            button21.setBackgroundColor(Color.RED);
+                        else
+                            button21.setBackgroundColor(Color.LTGRAY);
+                        break;
+                    case 22:
+                        if(val == 1)
+                            button22.setBackgroundColor(Color.RED);
+                        else
+                            button22.setBackgroundColor(Color.LTGRAY);
+                        break;
 
-                }
-                else {
-                    return new String("false : "+responseCode);
-                }
-            }
-            catch(Exception e){
-                return new String("Exception: " + e.getMessage());
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String results) {
-            mProgress.dismiss();
-            //This is where you return data back to caller
-            try{
-                JSONObject jsonRootObject = new JSONObject(results);
-                JSONArray jsonArray = jsonRootObject.optJSONArray("state");
-                for(int i=0; i < jsonArray.length(); i++){
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-                    int bit = Integer.parseInt(jsonObject.optString("bit").toString());
-                    int val = Integer.parseInt(jsonObject.optString("val").toString());
-                    String dir = jsonObject.optString("dir").toString();
-                    //float salary = Float.parseFloat(jsonObject.optString("salary").toString());
-                    switch (bit) {
-                        case 17:
-                            if(val == 1)
-                                button17.setBackgroundColor(Color.RED);
-                            else
-                                button17.setBackgroundColor(Color.LTGRAY);
-                            break;
-                        case 18:
-                            if(val == 1)
-                                button18.setBackgroundColor(Color.RED);
-                            else
-                                button18.setBackgroundColor(Color.LTGRAY);
-                            break;
-
-                        case 21:
-                                if(val == 1)
-                                    button21.setBackgroundColor(Color.RED);
-                                else
-                                    button21.setBackgroundColor(Color.LTGRAY);
-                            break;
-                        case 22:
-                            if(val == 1)
-                                button22.setBackgroundColor(Color.RED);
-                            else
-                                button22.setBackgroundColor(Color.LTGRAY);
-                            break;
-
-                        case 27:
-                            if(val == 1)
-                                button27.setBackgroundColor(Color.RED);
-                            else
-                                button27.setBackgroundColor(Color.LTGRAY);
-                            break;
-
-                    }
+                    case 27:
+                        if(val == 1)
+                            button27.setBackgroundColor(Color.RED);
+                        else
+                            button27.setBackgroundColor(Color.LTGRAY);
+                        break;
 
                 }
-            }catch (JSONException e) {
-                Toast.makeText(thiscontext,e.getMessage(),Toast.LENGTH_LONG).show();
+
             }
+        }catch (JSONException e) {
+            Toast.makeText(thiscontext,e.getMessage(),Toast.LENGTH_LONG).show();
         }
     }
-
-
 }

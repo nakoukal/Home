@@ -1,4 +1,5 @@
 package com.nakoukal.radek.home;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,6 +34,8 @@ public class TempFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     ListView listView;
     ArrayList<TempObject> arrayList;
     private String host,port,name,user,pass;
+    private ConfigDB cfgDb;
+    private Context thiscontext;
 
     public static TempFragment newInstance() {
         TempFragment fragment = new TempFragment();
@@ -47,13 +50,19 @@ public class TempFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
         View rootView = inflater.inflate(R.layout.temp_fragment, container, false);
         String path = TempFragment.this.getActivity().getFilesDir().getAbsolutePath();
-        Config cfg = new Config(path);
-        if (cfg.load()) {
-            this.host = cfg.get("host");
-            this.port = cfg.get("port");
-            this.name = cfg.get("name");
-            this.user = cfg.get("user");
-            this.pass = cfg.get("pass");
+        thiscontext = getActivity();
+        try {
+            cfgDb = new ConfigDB(thiscontext);
+            this.host = cfgDb.GetData("host");
+            this.port = cfgDb.GetData("port");
+            this.name = cfgDb.GetData("name");
+            this.user = cfgDb.GetData("user");
+            this.pass = cfgDb.GetData("pass");
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(thiscontext, e.getMessage(),
+                    Toast.LENGTH_LONG).show();
         }
         listView = (ListView) rootView.findViewById(R.id.list);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()

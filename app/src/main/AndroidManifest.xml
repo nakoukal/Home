@@ -22,7 +22,7 @@
         </activity>
         <activity
             android:name=".TempDetailActivity"
-            android:parentActivityName="com.nakoukal.radek.home.">
+            android:parentActivityName="com.nakoukal.radek.home.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.nakoukal.radek.home.MainActivity" />

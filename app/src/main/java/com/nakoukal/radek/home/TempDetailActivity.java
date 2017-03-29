@@ -1,5 +1,6 @@
 package com.nakoukal.radek.home;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,6 +11,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,20 +24,26 @@ public class TempDetailActivity extends AppCompatActivity {
     TextView test;
     ImageView ivDay,ivWeek;
     private String host,port,name,user,pass;
-
+    private ConfigDB cfgDb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temp_detail);
 
         String path = this.getFilesDir().getAbsolutePath();
-        Config cfg = new Config(path);
-        if (cfg.load()) {
-            this.host = cfg.get("host");
-            this.port = cfg.get("port");
-            this.name = cfg.get("name");
-            this.user = cfg.get("user");
-            this.pass = cfg.get("pass");
+
+        try {
+            cfgDb = new ConfigDB(this);
+            this.host = cfgDb.GetData("host");
+            this.port = cfgDb.GetData("port");
+            this.name = cfgDb.GetData("name");
+            this.user = cfgDb.GetData("user");
+            this.pass = cfgDb.GetData("pass");
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(this, e.getMessage(),
+                    Toast.LENGTH_LONG).show();
         }
 
         // 1. get passed intent

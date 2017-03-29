@@ -1,4 +1,5 @@
 package com.nakoukal.radek.home;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -30,6 +31,8 @@ public class EventFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     ListView listView;
     ArrayList<EventObject> arrayList;
     private String host,port,name,user,pass;
+    private ConfigDB cfgDb;
+    private Context thiscontext;
 
     public static EventFragment newInstance() {
         EventFragment fragment = new EventFragment();
@@ -41,18 +44,25 @@ public class EventFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        thiscontext = getActivity();
         View rootView = inflater.inflate(R.layout.activity_fragment, container, false);
         listView = (ListView) rootView.findViewById(R.id.list);
         String path = EventFragment.this.getActivity().getFilesDir().getAbsolutePath();
-        Config cfg = new Config(path);
-        if (cfg.load()) {
-            this.host = cfg.get("host");
-            this.port = cfg.get("port");
-            this.name = cfg.get("name");
-            this.user = cfg.get("user");
-            this.pass = cfg.get("pass");
+
+        try {
+            cfgDb = new ConfigDB(thiscontext);
+            this.host = cfgDb.GetData("host");
+            this.port = cfgDb.GetData("port");
+            this.name = cfgDb.GetData("name");
+            this.user = cfgDb.GetData("user");
+            this.pass = cfgDb.GetData("pass");
         }
+        catch (Exception e)
+        {
+            Toast.makeText(thiscontext, e.getMessage(),
+                    Toast.LENGTH_LONG).show();
+        }
+
         return rootView;
     }
 
