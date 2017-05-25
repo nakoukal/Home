@@ -1,134 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_config"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="1dp"
+    android:paddingLeft="1dp"
+    android:paddingRight="1dp"
+    android:paddingTop="1dp"
     tools:context="com.nakoukal.radek.home.ConfigActivity">
 
-    <TextView
-        android:id="@+id/tvHost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/etHost"
-        android:layout_alignBottom="@+id/etHost"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:text="@string/btn_host"
-        android:textSize="18sp"
-        android:textStyle="normal|bold" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/etPort"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/etHost"
-        android:ems="10"
-        android:inputType="number" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:isScrollContainer="false"
+                android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/tvPort"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/etPort"
-        android:layout_alignBottom="@+id/etPort"
-        android:layout_alignEnd="@+id/tvHost"
-        android:layout_alignRight="@+id/tvHost"
-        android:text="@string/btn_port"
-        android:textSize="18sp"
-        android:textStyle="normal|bold" />
+                <TextView
+                    android:id="@+id/tv01name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.30"
+                    android:labelFor="@+id/etBt01name"
+                    android:text="@string/btn_01_name"
+                    android:textAlignment="textStart"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/buttonSave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:text="Save" />
+                <EditText
+                    android:id="@+id/etBt01name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.70"
+                    android:ems="10"
+                    android:inputType="textWebEmailAddress" />
 
-    <TextView
-        android:id="@+id/tvName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/etName"
-        android:layout_alignBottom="@+id/etName"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:text="@string/btn_name"
-        android:textSize="18sp"
-        android:textStyle="normal|bold" />
+            </LinearLayout>
 
-    <EditText
-        android:id="@+id/etUser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/etName"
-        android:ems="10"
-        android:inputType="text" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/tvPassw"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_passw"
-        android:textSize="18sp"
-        android:textStyle="normal|bold"
-        android:layout_alignBaseline="@+id/etPass"
-        android:layout_alignBottom="@+id/etPass"
-        android:layout_alignLeft="@+id/tvUser"
-        android:layout_alignStart="@+id/tvUser" />
+                <TextView
+                    android:id="@+id/tv01on"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.30"
+                    android:labelFor="@+id/etBt01on"
+                    android:text="@string/btn_01"
+                    android:textAlignment="viewStart"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/tvUser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/etUser"
-        android:layout_alignBottom="@+id/etUser"
-        android:layout_alignLeft="@+id/tvPort"
-        android:layout_alignStart="@+id/tvPort"
-        android:text="@string/btn_user"
-        android:textSize="18sp"
-        android:textStyle="normal|bold" />
+                <EditText
+                    android:id="@+id/etBt01on"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.70"
+                    android:ems="10"
+                    android:inputType="textWebEmailAddress" />
 
-    <EditText
-        android:id="@+id/etPass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/etUser"
-        android:ems="10"
-        android:inputType="text" />
+            </LinearLayout>
 
-    <EditText
-        android:id="@+id/etName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/etPort"
-        android:ems="10"
-        android:inputType="text" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/etHost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:ems="10"
-        android:inputType="text"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/tv01off"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.30"
+                    android:labelFor="@+id/etBt01off"
+                    android:text="@string/btn_01_off"
+                    android:textAlignment="viewStart"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
-</RelativeLayout>
+                <EditText
+                    android:id="@+id/etBt01off"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.70"
+                    android:ems="10"
+                    android:inputType="textWebEmailAddress" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv01pin"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.30"
+                    android:labelFor="@+id/etBt01pin"
+                    android:text="@string/btn_01_pin"
+                    android:textAlignment="viewStart"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/etBt01pin"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.70"
+                    android:ems="10"
+                    android:inputType="textWebEmailAddress" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonSave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Button" />
+        </LinearLayout>
+</ScrollView>

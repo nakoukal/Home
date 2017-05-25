@@ -65,10 +65,15 @@ public class SendRequestAsyncTask extends AsyncTask<String, String, String> {
         Integer iResult = 0;
 
         try {
-            String login  = m_user+":"+m_pass;
-            String basicAuth = "Basic " + new String(Base64.encode(login.getBytes(), Base64.NO_WRAP));
             HttpURLConnection conn = (HttpURLConnection) m_url.openConnection();
-            conn.setRequestProperty("Authorization", basicAuth);
+
+            if (m_user != null)
+            {
+                String login  = m_user+":"+m_pass;
+                String basicAuth = "Basic " + new String(Base64.encode(login.getBytes(), Base64.NO_WRAP));
+                conn.setRequestProperty("Authorization", basicAuth);
+            }
+
             conn.setReadTimeout(15000);
             conn.setConnectTimeout(15000);
             conn.setRequestMethod("POST");

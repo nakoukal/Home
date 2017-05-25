@@ -26,8 +26,6 @@ public class MainActivity extends AppCompatActivity{
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
-    public String host,port,name,user,pass;
-    private ConfigDB cfgDb;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -38,23 +36,6 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        try {
-
-            cfgDb = new ConfigDB(this);
-            this.host = cfgDb.GetData("host");
-            this.port = cfgDb.GetData("port");
-            this.name = cfgDb.GetData("name");
-            this.user = cfgDb.GetData("user");
-            this.pass = cfgDb.GetData("pass");
-
-
-        }
-        catch (Exception e)
-        {
-            Toast.makeText(this, e.getMessage(),
-                    Toast.LENGTH_LONG).show();
-        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

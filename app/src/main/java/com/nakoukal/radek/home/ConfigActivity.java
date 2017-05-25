@@ -10,7 +10,9 @@ import android.widget.Toast;
 
 public class ConfigActivity extends AppCompatActivity {
     private Boolean result = false;
-    private EditText host,port,name,user,pass;
+
+    private EditText etBt01name,etBt01on,etBt01off,etBt01pin;
+
     private Button save;
     private ConfigDB cfgDb;
     // Config cfg;
@@ -19,20 +21,19 @@ public class ConfigActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config);
-        host = (EditText) findViewById(R.id.etHost);
-        port = (EditText) findViewById(R.id.etPort);
-        name = (EditText) findViewById(R.id.etName);
-        user = (EditText) findViewById(R.id.etUser);
-        pass = (EditText) findViewById(R.id.etPass);
+        etBt01name = (EditText) findViewById(R.id.etBt01name);
+        etBt01on = (EditText) findViewById(R.id.etBt01on);
+        etBt01off = (EditText) findViewById(R.id.etBt01off);
+        etBt01pin = (EditText) findViewById(R.id.etBt01pin);
+
         save = (Button) findViewById(R.id.buttonSave);
 
         try {
             cfgDb = new ConfigDB(this);
-            host.setText(cfgDb.GetData("host"));
-            port.setText(cfgDb.GetData("port"));
-            name.setText(cfgDb.GetData("name"));
-            user.setText(cfgDb.GetData("user"));
-            pass.setText(cfgDb.GetData("pass"));
+            etBt01name.setText(cfgDb.GetData("bt01name"));
+            etBt01on.setText(cfgDb.GetData("bt01on"));
+            etBt01off.setText(cfgDb.GetData("bt01off"));
+            etBt01pin.setText(cfgDb.GetData("bt01pin"));
         }
         catch (Exception e)
         {
@@ -45,11 +46,10 @@ public class ConfigActivity extends AppCompatActivity {
         {
             @Override
             public void onClick(View view) {
-                cfgDb.AddData("host",host.getText().toString());
-                cfgDb.AddData("port",port.getText().toString());
-                cfgDb.AddData("name",name.getText().toString());
-                cfgDb.AddData("user",user.getText().toString());
-                cfgDb.AddData("pass",pass.getText().toString());
+                cfgDb.AddData("bt01name",etBt01name.getText().toString());
+                cfgDb.AddData("bt01on",etBt01on.getText().toString());
+                cfgDb.AddData("bt01off",etBt01off.getText().toString());
+                cfgDb.AddData("bt01pin",etBt01pin.getText().toString());
             }
         });
 

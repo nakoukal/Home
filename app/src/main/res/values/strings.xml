@@ -81,10 +81,13 @@
     <string name="btn_name">name</string>
     <string name="btn_user">user</string>
     <string name="btn_passw">passw</string>
-    <string name="btn_01">button_01</string>
+    <string name="btn_01">BT 01 URL On</string>
     <string name="btn_02">button_02</string>
     <string name="btn_03">button_03</string>
     <string name="btn_04">button_04</string>
     <string name="btn_05">button_05</string>
     <string name="btn_06">button_06</string>
+    <string name="btn_01_off">BT 01 URL Off</string>
+    <string name="btn_01_name">BT 01 Name</string>
+    <string name="btn_01_pin">BT 01 PIN</string>
 </resources>
