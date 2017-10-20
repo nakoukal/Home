@@ -32,13 +32,10 @@ public class GateFragment extends Fragment implements TaskCompleted{
      * The fragment argument representing the section number for this
      * fragment.
      */
-
     private ConfigDB cfgDb;
+    private Context thiscontext;
 
-    private String bt01name,bt01on,bt01off,bt01pin;
-    private String host,port,name,user,pass;
-    private Button bt01,bt02,bt03,bt04,bt05,bt06;
-
+    public String address,hostname,port,name,user,pass;
     private static final String ARG_SECTION_NUMBER = "section_number";
     public GateFragment() {
 
@@ -57,26 +54,22 @@ public class GateFragment extends Fragment implements TaskCompleted{
     }
 
 
-
-    Context thiscontext;
+    Button button17,button18,buttonAll,button21,button22,button27;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         thiscontext = getActivity();
         final TaskCompleted self_task = this;
         View rootView = inflater.inflate(R.layout.gate_fragment, container, false);
+        thiscontext = getActivity();
         try {
             cfgDb = new ConfigDB(thiscontext);
-            this.host = cfgDb.GetData("host");
+            this.hostname = cfgDb.GetData("host");
             this.port = cfgDb.GetData("port");
             this.name = cfgDb.GetData("name");
             this.user = cfgDb.GetData("user");
             this.pass = cfgDb.GetData("pass");
-
-            this.bt01name = cfgDb.GetData("bt01name");
-            this.bt01on = cfgDb.GetData("bt01on");
-            this.bt01off = cfgDb.GetData("bt01off");
-            this.bt01pin = cfgDb.GetData("bt01pin");
+            this.address = "http://"+hostname+":"+port+"/smarthome/gpio_control.php?dev="+name+"&act=";
         }
         catch (Exception e)
         {
@@ -85,22 +78,18 @@ public class GateFragment extends Fragment implements TaskCompleted{
         }
 
 
-        bt01 = (Button) rootView.findViewById(R.id.bt01);
-        bt02 = (Button) rootView.findViewById(R.id.bt02);
-        bt03 = (Button) rootView.findViewById(R.id.bt03);
-        bt04 = (Button) rootView.findViewById(R.id.bt04);
-        bt05 = (Button) rootView.findViewById(R.id.bt05);
-        bt06 = (Button) rootView.findViewById(R.id.bt06);
-
-        if(bt01name != "")
-            bt01.setEnabled(true);
-            bt01.setText(bt01name);
+        button17 = (Button) rootView.findViewById(R.id.bt02name);
+        button18 = (Button) rootView.findViewById(R.id.bt01name);
+        button27 = (Button) rootView.findViewById(R.id.bt05name);
+        button22 = (Button) rootView.findViewById(R.id.bt04name);
+        button21 = (Button) rootView.findViewById(R.id.button21);
+        buttonAll = (Button) rootView.findViewById(R.id.bt03name);
 
         try {
             SendRequestAsyncTask req = new SendRequestAsyncTask(thiscontext,this);
             req.SetUser(user);
             req.SetPass(pass);
-            req.SetUrl(new URL("http://"+host+":"+port+"/smarthome/gpio_control.php?dev="+name+"&act=readall"));
+            req.SetUrl(new URL(address+"readall"));
             req.execute();
         }
         catch(Exception e){
@@ -108,14 +97,16 @@ public class GateFragment extends Fragment implements TaskCompleted{
                     Toast.LENGTH_LONG).show();
         }
 
-        bt01.setOnClickListener(new View.OnClickListener()
+        button17.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view) {
             try {
-                SendRequestAsyncTask srBt01 = new SendRequestAsyncTask(thiscontext,self_task);
-                srBt01.SetUrl(new URL(bt01on));
-                srBt01.execute();
+                SendRequestAsyncTask srBt17 = new SendRequestAsyncTask(thiscontext,self_task);
+                srBt17.SetUser(user);
+                srBt17.SetPass(pass);
+                srBt17.SetUrl(new URL(address+"opengate&bit=17"));
+                srBt17.execute();
             }
             catch(Exception e){
                 Toast.makeText(getActivity().getApplicationContext(), e.getMessage(),
@@ -124,15 +115,17 @@ public class GateFragment extends Fragment implements TaskCompleted{
 
             }
         });
-        /*
+
         button18.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view) {
                 try {
-                    SendRequestAsyncTask srBt18 = new SendRequestAsyncTask(thiscontext,self_task);
-                    srBt18.SetUrl(new URL("http://"+host+":"+port+"/smarthome/gpio_control.php?dev="+name+"&act=opengate&bit=18"));
-                    srBt18.execute();
+                    SendRequestAsyncTask srBt24 = new SendRequestAsyncTask(thiscontext,self_task);
+                    srBt24.SetUser(user);
+                    srBt24.SetPass(pass);
+                    srBt24.SetUrl(new URL(address+"opengate&bit=24"));
+                    srBt24.execute();
                 }
                 catch(Exception e){
                     Toast.makeText(getActivity().getApplicationContext(), e.getMessage(),
@@ -148,11 +141,15 @@ public class GateFragment extends Fragment implements TaskCompleted{
             public void onClick(View view) {
                 try {
                     SendRequestAsyncTask srBt18 = new SendRequestAsyncTask(thiscontext,self_task);
-                    srBt18.SetUrl(new URL("http://"+host+":"+port+"/smarthome/gpio_control.php?dev="+name+"&act=opengate&bit=18"));
+                    srBt18.SetUser(user);
+                    srBt18.SetPass(pass);
+                    srBt18.SetUrl(new URL(address+"opengate&bit=24"));
                     srBt18.execute();
 
                     SendRequestAsyncTask srBt17 = new SendRequestAsyncTask(thiscontext,self_task);
-                    srBt17.SetUrl(new URL("http://"+host+":"+port+"/smarthome/gpio_control.php?dev="+name+"&act=opengate&bit=17"));
+                    srBt17.SetUser(user);
+                    srBt17.SetPass(pass);
+                    srBt17.SetUrl(new URL(address+"opengate&bit=17"));
                     srBt17.execute();
 
                 }
@@ -170,7 +167,9 @@ public class GateFragment extends Fragment implements TaskCompleted{
             public void onClick(View view) {
                 try {
                     SendRequestAsyncTask srBt21 = new SendRequestAsyncTask(thiscontext,self_task);
-                    srBt21.SetUrl(new URL("http://"+host+":"+port+"/smarthome/gpio_control.php?dev="+name+"&act=writevalue&bit=21"));
+                    srBt21.SetUser(user);
+                    srBt21.SetPass(pass);
+                    srBt21.SetUrl(new URL(address+"writevalue&bit=21"));
                     srBt21.execute();
                 }
                 catch(Exception e){
@@ -187,7 +186,9 @@ public class GateFragment extends Fragment implements TaskCompleted{
             public void onClick(View view) {
                 try {
                     SendRequestAsyncTask srBt22 = new SendRequestAsyncTask(thiscontext,self_task);
-                    srBt22.SetUrl(new URL("http://"+host+":"+port+"/smarthome/gpio_control.php?dev="+name+"&act=writevalue&bit=22"));
+                    srBt22.SetUser(user);
+                    srBt22.SetPass(pass);
+                    srBt22.SetUrl(new URL(address+"writevalue&bit=22"));
                     srBt22.execute();
                 }
                 catch(Exception e){
@@ -204,7 +205,9 @@ public class GateFragment extends Fragment implements TaskCompleted{
             public void onClick(View view) {
                 try {
                     SendRequestAsyncTask srBt27 = new SendRequestAsyncTask(thiscontext,self_task);
-                    srBt27.SetUrl(new URL("http://"+host+":"+port+"/smarthome/gpio_control.php?dev="+name+"&act=writevalue&bit=27"));
+                    srBt27.SetUser(user);
+                    srBt27.SetPass(pass);
+                    srBt27.SetUrl(new URL(address+"writevalue&bit=27"));
                     srBt27.execute();
                 }
                 catch(Exception e){
@@ -214,7 +217,6 @@ public class GateFragment extends Fragment implements TaskCompleted{
 
             }
         });
-        */
         return rootView;
     }
 
@@ -233,7 +235,6 @@ public class GateFragment extends Fragment implements TaskCompleted{
                 int val = Integer.parseInt(jsonObject.optString("val").toString());
                 String dir = jsonObject.optString("dir").toString();
                 //float salary = Float.parseFloat(jsonObject.optString("salary").toString());
-                /*
                 switch (bit) {
                     case 17:
                         if(val == 1)
@@ -241,7 +242,7 @@ public class GateFragment extends Fragment implements TaskCompleted{
                         else
                             button17.setBackgroundColor(Color.LTGRAY);
                         break;
-                    case 18:
+                    case 24:
                         if(val == 1)
                             button18.setBackgroundColor(Color.RED);
                         else
@@ -269,7 +270,7 @@ public class GateFragment extends Fragment implements TaskCompleted{
                         break;
 
                 }
-*/
+
             }
         }catch (JSONException e) {
             Toast.makeText(thiscontext,e.getMessage(),Toast.LENGTH_LONG).show();

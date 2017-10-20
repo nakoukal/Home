@@ -25,7 +25,7 @@
         android:layout_width="fill_parent"
         android:layout_height="1dip"
         android:background="#000000"
-        android:layout_above="@+id/bt01"
+        android:layout_above="@+id/bt01name"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_margin="0dp"
@@ -33,44 +33,41 @@
         android:layout_marginBottom="2dp" />
 
     <Button
-        android:id="@+id/bt01"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="VRATA"
+        android:id="@+id/bt01name"
+        android:textSize="19dp"
+        android:layout_below="@+id/textView"
         android:layout_alignLeft="@+id/textView"
         android:layout_alignStart="@+id/textView"
-        android:layout_below="@+id/textView"
         android:layout_marginRight="1dp"
-        android:layout_marginTop="2dp"
-        android:enabled="false"
-        android:text="bt01"
-        android:textSize="19dp" />
+        android:layout_marginTop="2dp" />
 
     <Button
-        android:id="@+id/bt02"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/bt05"
+        android:text="GARAZ"
+        android:id="@+id/bt02name"
+        android:textSize="19dp"
         android:layout_below="@+id/textView"
+        android:layout_toRightOf="@+id/bt01name"
+        android:layout_toEndOf="@+id/bt01name"
         android:layout_marginLeft="1dp"
         android:layout_marginRight="1dp"
-        android:enabled="false"
-        android:text="BT02"
-        android:textSize="19dp"
-        android:visibility="visible" />
+        android:layout_marginTop="2dp" />
 
     <Button
-        android:id="@+id/bt03"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
-        android:layout_marginLeft="1dp"
-        android:layout_marginTop="2dp"
-        android:layout_toEndOf="@+id/bt02"
-        android:layout_toRightOf="@+id/bt02"
-        android:enabled="false"
-        android:text="BT03"
+        android:text="VRATA/GARAZ"
+        android:id="@+id/bt03name"
         android:textSize="19dp"
-        android:visibility="visible" />
+        android:layout_below="@+id/textView"
+        android:layout_toRightOf="@+id/bt02name"
+        android:layout_toEndOf="@+id/bt02name"
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="2dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -80,7 +77,7 @@
         android:id="@+id/textView2"
         android:textSize="24dp"
         android:theme="@style/AppTheme"
-        android:layout_below="@+id/bt03"
+        android:layout_below="@+id/bt03name"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="2dp" />
@@ -89,45 +86,44 @@
         android:layout_width="fill_parent"
         android:layout_height="1dip"
         android:background="#000000"
-        android:layout_above="@+id/bt04"
+        android:layout_above="@+id/bt04name"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="2dp"
         android:id="@+id/view" />
 
     <Button
-        android:id="@+id/bt04"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
+        android:text="SOLAR"
+        android:id="@+id/bt04name"
+        android:textSize="19dp"
         android:layout_below="@+id/textView2"
-        android:enabled="false"
-        android:text="BT04"
-        android:textSize="19dp"
-        android:visibility="visible" />
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView"
+        android:layout_marginTop="2dp" />
 
     <Button
-        android:id="@+id/bt05"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="TOPENI"
+        android:id="@+id/bt05name"
+        android:textSize="19dp"
         android:layout_below="@+id/view"
-        android:layout_marginLeft="2dp"
+        android:layout_toRightOf="@+id/bt04name"
+        android:layout_toEndOf="@+id/bt04name"
         android:layout_marginTop="2dp"
-        android:layout_toEndOf="@+id/bt04"
-        android:layout_toRightOf="@+id/bt04"
-        android:enabled="false"
-        android:text="BT05"
-        android:textSize="19dp"
-        android:visibility="visible" />
+        android:layout_marginLeft="2dp" />
 
     <Button
-        android:id="@+id/bt06"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/view"
-        android:layout_marginLeft="2dp"
-        android:layout_toEndOf="@+id/bt02"
-        android:enabled="false"
-        android:text="BT06"
-        android:textSize="19dp" />
+        android:text="BUTTON21"
+        android:id="@+id/button21"
+        android:textSize="19dp"
+        android:layout_alignTop="@+id/view"
+        android:layout_toRightOf="@+id/bt05name"
+        android:layout_toEndOf="@+id/bt05name"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="2dp" />
 </RelativeLayout>
