@@ -9,11 +9,19 @@ import android.os.AsyncTask;
 import android.util.Base64;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 
+import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
 
 
 public class SendRequestAsyncTask extends AsyncTask<String, String, String> {
@@ -65,7 +73,31 @@ public class SendRequestAsyncTask extends AsyncTask<String, String, String> {
         Integer iResult = 0;
 
         try {
-            HttpURLConnection conn = (HttpURLConnection) m_url.openConnection();
+            HttpsURLConnection conn = (HttpsURLConnection) m_url.openConnection();
+
+            try
+            {
+                // Create an SSLContext that uses our TrustManager
+                SSLContext context = SSLContext.getInstance("TLS");
+                TrustManager[] tmlist = {new MyTrustManager()};
+                context.init(null, tmlist, null);
+                conn.setSSLSocketFactory(context.getSocketFactory());
+                conn.setHostnameVerifier(new HostnameVerifier() {
+                    @Override
+                    public boolean verify(String hostname, SSLSession session) {
+                        //TODO: Make this more restrictive
+                        return true;
+                    }
+                });
+            }
+            catch (NoSuchAlgorithmException e)
+            {
+                throw new IOException(e);
+            } catch (KeyManagementException e)
+            {
+                throw new IOException(e);
+            }
+
 
             if (m_user != null)
             {
@@ -74,11 +106,12 @@ public class SendRequestAsyncTask extends AsyncTask<String, String, String> {
                 conn.setRequestProperty("Authorization", basicAuth);
             }
 
-            conn.setReadTimeout(15000);
-            conn.setConnectTimeout(15000);
-            conn.setRequestMethod("POST");
+            conn.setReadTimeout(1000);
+            conn.setConnectTimeout(1000);
+            conn.setRequestMethod("GET");
             conn.setDoInput(true);
-            conn.setDoOutput(true);
+            //conn.setDoOutput(true);
+            conn.connect();
 
             int responseCode=conn.getResponseCode();
 

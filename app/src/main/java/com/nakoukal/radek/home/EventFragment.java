@@ -21,7 +21,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
 
 /**
  * Created by uidv7359 on 25.8.2016.
@@ -72,7 +76,7 @@ public class EventFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         swipeLayout.setOnRefreshListener(this);
         try {
             AsyncActivity req = new AsyncActivity();
-            req.setUrl(new URL("http://"+host+":"+port+"/smarthome/gpio_control.php?dev="+name+"&act=readallevents"));
+            req.setUrl(new URL("https://"+host+":"+port+"/smarthome/gpio_control.php?dev="+name+"&act=readallevents"));
             req.execute();
         }
         catch(Exception e){
@@ -85,7 +89,7 @@ public class EventFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     public void onRefresh() {
         try {
             AsyncActivity req = new AsyncActivity();
-            req.setUrl(new URL("http://"+host+":"+port+"/smarthome/gpio_control.php?dev=\"+name+\"&act=readallevents"));
+            req.setUrl(new URL("https://"+host+":"+port+"/smarthome/gpio_control.php?dev=\"+name+\"&act=readallevents"));
             req.execute();
         }
         catch(Exception e){
@@ -108,9 +112,22 @@ public class EventFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         protected String doInBackground(String... values) {
             Integer iResult = 0;
             try {
-                String login  = user+":"+pass;
+                String login = user + ":" + pass;
                 String basicAuth = "Basic " + new String(Base64.encode(login.getBytes(), Base64.NO_WRAP));
-                HttpURLConnection conn = (HttpURLConnection) this.url.openConnection();
+                HttpsURLConnection conn = (HttpsURLConnection) this.url.openConnection();
+
+                // Create an SSLContext that uses our TrustManager
+                SSLContext context = SSLContext.getInstance("TLS");
+                TrustManager[] tmlist = {new MyTrustManager()};
+                context.init(null, tmlist, null);
+                conn.setSSLSocketFactory(context.getSocketFactory());
+                conn.setHostnameVerifier(new HostnameVerifier() {
+                    @Override
+                    public boolean verify(String hostname, SSLSession session) {
+                        //TODO: Make this more restrictive
+                        return true;
+                    }
+                });
                 conn.setRequestProperty("Authorization", basicAuth);
                 conn.setReadTimeout(15000);
                 conn.setConnectTimeout(15000);

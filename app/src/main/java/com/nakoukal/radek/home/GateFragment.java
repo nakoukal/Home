@@ -7,10 +7,8 @@ package com.nakoukal.radek.home;
 
 import android.content.Context;
 import android.graphics.Color;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +20,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URL;
-import static android.R.attr.host;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -54,7 +51,7 @@ public class GateFragment extends Fragment implements TaskCompleted{
     }
 
 
-    Button button17,button18,buttonAll,button21,button22,button27;
+    Button button17,button18,button24,buttonAll,button21,button22,button27;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -69,7 +66,7 @@ public class GateFragment extends Fragment implements TaskCompleted{
             this.name = cfgDb.GetData("name");
             this.user = cfgDb.GetData("user");
             this.pass = cfgDb.GetData("pass");
-            this.address = "http://"+hostname+":"+port+"/smarthome/gpio_control.php?dev="+name+"&act=";
+            this.address = "https://"+hostname+":"+port+"/smarthome/gpio_control.php?dev="+name+"&act=";
         }
         catch (Exception e)
         {
@@ -78,12 +75,10 @@ public class GateFragment extends Fragment implements TaskCompleted{
         }
 
 
-        button17 = (Button) rootView.findViewById(R.id.bt02name);
-        button18 = (Button) rootView.findViewById(R.id.bt01name);
-        button27 = (Button) rootView.findViewById(R.id.bt05name);
-        button22 = (Button) rootView.findViewById(R.id.bt04name);
-        button21 = (Button) rootView.findViewById(R.id.button21);
-        buttonAll = (Button) rootView.findViewById(R.id.bt03name);
+        button17 = rootView.findViewById(R.id.button01);
+        button24 = rootView.findViewById(R.id.button02);
+        button18 = rootView.findViewById(R.id.button04);
+        buttonAll = rootView.findViewById(R.id.button03);
 
         try {
             SendRequestAsyncTask req = new SendRequestAsyncTask(thiscontext,this);
@@ -101,27 +96,28 @@ public class GateFragment extends Fragment implements TaskCompleted{
         {
             @Override
             public void onClick(View view) {
-            try {
-                SendRequestAsyncTask srBt17 = new SendRequestAsyncTask(thiscontext,self_task);
-                srBt17.SetUser(user);
-                srBt17.SetPass(pass);
-                srBt17.SetUrl(new URL(address+"opengate&bit=17"));
-                srBt17.execute();
-            }
-            catch(Exception e){
-                Toast.makeText(getActivity().getApplicationContext(), e.getMessage(),
-                        Toast.LENGTH_LONG).show();
-            }
+                try {
+                    SendRequestAsyncTask srBt17 = new SendRequestAsyncTask(thiscontext,self_task);
+                    srBt17.SetUser(user);
+                    srBt17.SetPass(pass);
+                    srBt17.SetUrl(new URL(address+"opengate&bit=17"));
+                    srBt17.execute();
+                }
+                catch(Exception e){
+                    Toast.makeText(getActivity().getApplicationContext(), e.getMessage(),
+                            Toast.LENGTH_LONG).show();
+                }
 
             }
         });
 
-        button18.setOnClickListener(new View.OnClickListener()
+        button24.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view) {
                 try {
-                    SendRequestAsyncTask srBt24 = new SendRequestAsyncTask(thiscontext,self_task);
+                    SendRequestAsyncTask srBt24;
+                    srBt24 = new SendRequestAsyncTask(thiscontext,self_task);
                     srBt24.SetUser(user);
                     srBt24.SetPass(pass);
                     srBt24.SetUrl(new URL(address+"opengate&bit=24"));
@@ -140,13 +136,15 @@ public class GateFragment extends Fragment implements TaskCompleted{
             @Override
             public void onClick(View view) {
                 try {
-                    SendRequestAsyncTask srBt18 = new SendRequestAsyncTask(thiscontext,self_task);
-                    srBt18.SetUser(user);
-                    srBt18.SetPass(pass);
-                    srBt18.SetUrl(new URL(address+"opengate&bit=24"));
-                    srBt18.execute();
+                    SendRequestAsyncTask srBt24;
+                    srBt24 = new SendRequestAsyncTask(thiscontext,self_task);
+                    srBt24.SetUser(user);
+                    srBt24.SetPass(pass);
+                    srBt24.SetUrl(new URL(address+"opengate&bit=24"));
+                    srBt24.execute();
 
-                    SendRequestAsyncTask srBt17 = new SendRequestAsyncTask(thiscontext,self_task);
+                    SendRequestAsyncTask srBt17;
+                    srBt17 = new SendRequestAsyncTask(thiscontext,self_task);
                     srBt17.SetUser(user);
                     srBt17.SetPass(pass);
                     srBt17.SetUrl(new URL(address+"opengate&bit=17"));
@@ -161,16 +159,17 @@ public class GateFragment extends Fragment implements TaskCompleted{
             }
         });
 
-        button21.setOnClickListener(new View.OnClickListener()
+        button18.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view) {
                 try {
-                    SendRequestAsyncTask srBt21 = new SendRequestAsyncTask(thiscontext,self_task);
-                    srBt21.SetUser(user);
-                    srBt21.SetPass(pass);
-                    srBt21.SetUrl(new URL(address+"writevalue&bit=21"));
-                    srBt21.execute();
+                    SendRequestAsyncTask srBt18;
+                    srBt18 = new SendRequestAsyncTask(thiscontext,self_task);
+                    srBt18.SetUser(user);
+                    srBt18.SetPass(pass);
+                    srBt18.SetUrl(new URL(address+"writevalue&bit=18"));
+                    srBt18.execute();
                 }
                 catch(Exception e){
                     Toast.makeText(getActivity().getApplicationContext(), e.getMessage(),
@@ -180,43 +179,7 @@ public class GateFragment extends Fragment implements TaskCompleted{
             }
         });
 
-        button22.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view) {
-                try {
-                    SendRequestAsyncTask srBt22 = new SendRequestAsyncTask(thiscontext,self_task);
-                    srBt22.SetUser(user);
-                    srBt22.SetPass(pass);
-                    srBt22.SetUrl(new URL(address+"writevalue&bit=22"));
-                    srBt22.execute();
-                }
-                catch(Exception e){
-                    Toast.makeText(getActivity().getApplicationContext(), e.getMessage(),
-                            Toast.LENGTH_LONG).show();
-                }
 
-            }
-        });
-
-        button27.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view) {
-                try {
-                    SendRequestAsyncTask srBt27 = new SendRequestAsyncTask(thiscontext,self_task);
-                    srBt27.SetUser(user);
-                    srBt27.SetPass(pass);
-                    srBt27.SetUrl(new URL(address+"writevalue&bit=27"));
-                    srBt27.execute();
-                }
-                catch(Exception e){
-                    Toast.makeText(getActivity().getApplicationContext(), e.getMessage(),
-                            Toast.LENGTH_LONG).show();
-                }
-
-            }
-        });
         return rootView;
     }
 
@@ -244,29 +207,16 @@ public class GateFragment extends Fragment implements TaskCompleted{
                         break;
                     case 24:
                         if(val == 1)
+                            button24.setBackgroundColor(Color.RED);
+                        else
+                            button24.setBackgroundColor(Color.LTGRAY);
+                        break;
+
+                    case 18:
+                        if(val == 1)
                             button18.setBackgroundColor(Color.RED);
                         else
                             button18.setBackgroundColor(Color.LTGRAY);
-                        break;
-
-                    case 21:
-                        if(val == 1)
-                            button21.setBackgroundColor(Color.RED);
-                        else
-                            button21.setBackgroundColor(Color.LTGRAY);
-                        break;
-                    case 22:
-                        if(val == 1)
-                            button22.setBackgroundColor(Color.RED);
-                        else
-                            button22.setBackgroundColor(Color.LTGRAY);
-                        break;
-
-                    case 27:
-                        if(val == 1)
-                            button27.setBackgroundColor(Color.RED);
-                        else
-                            button27.setBackgroundColor(Color.LTGRAY);
                         break;
 
                 }

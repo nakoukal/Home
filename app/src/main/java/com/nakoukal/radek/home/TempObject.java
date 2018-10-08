@@ -8,16 +8,23 @@ import java.io.Serializable;
 public class TempObject implements Serializable {
     private String des;
     private double temp;
+    private double req;
+    private int stat;
     private String date;
     private String sensorid;
 
     private static final long serialVersionUID = 1L;
 
-    public TempObject(String des,double temp,String date,String sensorid) {
+    public TempObject() {
+    }
+
+    public TempObject(String des,double temp,double req, String date,int stat ,String sensorid) {
         this.des = des;
         this.temp = temp;
+        this.req = req;
         this.date = date;
         this.sensorid = sensorid;
+        this.stat = stat;
     }
 
     public String GetDes()
@@ -33,6 +40,15 @@ public class TempObject implements Serializable {
     public Double GetTemp()
     {
         return this.temp;
+    }
+
+    public Double GetReq()
+    {
+        return this.req;
+    }
+
+    public Integer GetStat() {
+        return this.stat;
     }
 
     public String GetSensorid()
