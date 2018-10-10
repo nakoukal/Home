@@ -17,8 +17,7 @@
             android:layout_height="match_parent"
             android:text="Teplota"
             android:textSize="24sp"
-            android:textStyle="bold"
-            android:theme="@style/AppTheme" />
+            android:textStyle="bold"/>
 
         <LinearLayout
             android:id="@+id/Linear11"
@@ -94,7 +93,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:text="Vrata"
+            android:text="@string/gate_sec"
             android:textSize="24dp"
             android:textStyle="bold" />
 
@@ -106,34 +105,30 @@
 
             <Button
                 android:id="@+id/button01"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_weight="1"
-                android:fontFamily="sans-serif"
-                android:text="Button"
+                android:text="@string/gar"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                tools:text="@string/gar" />
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/button02"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_weight="1"
-                android:text="Button"
+                android:text="@string/vra"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                tools:text="@string/vra" />
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/button03"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_weight="1"
-                android:text="Button"
+                android:text="@string/garvra"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                tools:text="@string/garvra" />
+                android:textStyle="bold" />
         </LinearLayout>
 
         <TextView
@@ -141,7 +136,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:text="Svetla"
+            android:text="@string/bulb_sec"
             android:textSize="24sp" />
 
         <LinearLayout
@@ -157,14 +152,12 @@
                 android:layout_height="60dp"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif"
-                android:text="Button"
+                android:text="@string/kot"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                tools:text="@string/kot" />
+                android:textStyle="bold" />
 
             <SeekBar
                 android:id="@+id/seekBar2"
-                style="@android:style/Widget.DeviceDefault.Light.SeekBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
@@ -189,7 +182,6 @@
 
             <SeekBar
                 android:id="@+id/seekBar"
-                style="@android:style/Widget.DeviceDefault.Light.SeekBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />

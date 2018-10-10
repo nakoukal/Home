@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -32,7 +33,7 @@ public class GateFragment extends Fragment implements TaskCompleted{
     private ConfigDB cfgDb;
     private Context thiscontext;
 
-    public String address,hostname,port,name,user,pass;
+    public String temp_addr,address,hostname,port,name,user,pass;
     private static final String ARG_SECTION_NUMBER = "section_number";
     public GateFragment() {
 
@@ -52,6 +53,8 @@ public class GateFragment extends Fragment implements TaskCompleted{
 
 
     Button button17,button18,button24,buttonAll,button21,button22,button27;
+    TextView tempIn,tempOut;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -67,6 +70,7 @@ public class GateFragment extends Fragment implements TaskCompleted{
             this.user = cfgDb.GetData("user");
             this.pass = cfgDb.GetData("pass");
             this.address = "https://"+hostname+":"+port+"/smarthome/gpio_control.php?dev="+name+"&act=";
+            this.temp_addr = "https://"+hostname+":"+port+"/smarthome/actualTemp2.php";
         }
         catch (Exception e)
         {
@@ -75,10 +79,24 @@ public class GateFragment extends Fragment implements TaskCompleted{
         }
 
 
-        button17 = rootView.findViewById(R.id.button01);
-        button24 = rootView.findViewById(R.id.button02);
-        button18 = rootView.findViewById(R.id.button04);
-        buttonAll = rootView.findViewById(R.id.button03);
+        button17    = rootView.findViewById(R.id.button01);
+        button24    = rootView.findViewById(R.id.button02);
+        button18    = rootView.findViewById(R.id.button04);
+        buttonAll   = rootView.findViewById(R.id.button03);
+        tempIn      = rootView.findViewById(R.id.tempin);
+        tempOut     = rootView.findViewById(R.id.tempout);
+
+        try {
+            SendRequestAsyncTask req = new SendRequestAsyncTask(thiscontext,this);
+            req.SetUser(user);
+            req.SetPass(pass);
+             req.SetUrl(new URL(this.temp_addr));
+            req.execute();
+        }
+        catch(Exception e){
+            Toast.makeText(getActivity().getApplicationContext(), e.getMessage(),
+                    Toast.LENGTH_LONG).show();
+        }
 
         try {
             SendRequestAsyncTask req = new SendRequestAsyncTask(thiscontext,this);
@@ -186,42 +204,83 @@ public class GateFragment extends Fragment implements TaskCompleted{
 
     @Override
     public void onTaskComplete(String result) {
-
+        String str = result.substring(2,3);
+        JSONArray jsonArray;
         //This is where you return data back to caller
         try{
             JSONObject jsonRootObject = new JSONObject(result);
-            JSONArray jsonArray = jsonRootObject.optJSONArray("state");
-            for(int i=0; i < jsonArray.length(); i++){
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                int bit = Integer.parseInt(jsonObject.optString("bit").toString());
-                int val = Integer.parseInt(jsonObject.optString("val").toString());
-                String dir = jsonObject.optString("dir").toString();
-                //float salary = Float.parseFloat(jsonObject.optString("salary").toString());
-                switch (bit) {
-                    case 17:
-                        if(val == 1)
-                            button17.setBackgroundColor(Color.RED);
-                        else
-                            button17.setBackgroundColor(Color.LTGRAY);
-                        break;
-                    case 24:
-                        if(val == 1)
-                            button24.setBackgroundColor(Color.RED);
-                        else
-                            button24.setBackgroundColor(Color.LTGRAY);
-                        break;
+            if(str.compareTo("t") == 0) {
+                jsonArray = jsonRootObject.optJSONArray("temp");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    String name = jsonObject.optString("name").toString();
+                    Double act = Double.parseDouble(jsonObject.optString("act").toString());
 
-                    case 18:
-                        if(val == 1)
-                            button18.setBackgroundColor(Color.RED);
-                        else
-                            button18.setBackgroundColor(Color.LTGRAY);
-                        break;
+                    Double req;
+                    try {
+                        req = Double.parseDouble(jsonObject.optString("req").toString());
+                    } catch (Exception e) {
+                        req = 0.0;
+                    }
 
+                    int stat = 0;
+
+                    try {
+                        stat = Integer.parseInt(jsonObject.optString("state").toString());
+                    } catch (Exception e) {
+                        stat = 0;
+                    }
+
+                    String time = jsonObject.optString("time").toString();
+                    String sens = jsonObject.optString("sens").toString();
+
+                    switch (name) {
+                        case "VEN":
+                            tempIn.setText(act.toString());
+                            break;
+                        case "OBY":
+                            tempOut.setText(act.toString());
+                            break;
+
+                    }
                 }
 
+                if (str.compareTo("s") == 0) {
+                    jsonArray = jsonRootObject.optJSONArray("state");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                        int bit = Integer.parseInt(jsonObject.optString("bit").toString());
+                        int val = Integer.parseInt(jsonObject.optString("val").toString());
+                        String dir = jsonObject.optString("dir").toString();
+                        //float salary = Float.parseFloat(jsonObject.optString("salary").toString());
+
+                        switch (bit) {
+                            case 17:
+                                if (val == 1)
+                                    button17.setTextColor(Color.RED);
+                                else
+                                    button17.setTextColor(Color.BLACK);
+                                break;
+                            case 24:
+                                if (val == 1)
+                                    button24.setTextColor(Color.RED);
+                                else
+                                    button24.setTextColor(Color.BLACK);
+                                break;
+
+                            case 18:
+                                if (val == 1)
+                                    button18.setTextColor(Color.RED);
+                                else
+                                    button18.setTextColor(Color.BLACK);
+                                break;
+                        }
+                    }
+                }
             }
+
         }catch (JSONException e) {
             Toast.makeText(thiscontext,e.getMessage(),Toast.LENGTH_LONG).show();
         }

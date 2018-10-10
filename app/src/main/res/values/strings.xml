@@ -88,4 +88,6 @@
     <string name="vra">VRA</string>
     <string name="garvra">GAR | VRA</string>
     <string name="kot">KOTEC</string>
+    <string name="gate_sec">Gate section</string>
+    <string name="bulb_sec">Bulb section</string>
 </resources>
